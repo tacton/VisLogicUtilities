@@ -1,0 +1,16 @@
+{
+  "name": "VisLogicUtilities",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A library of scripts for use in the visual logic of Tacton CPQ VizStudio",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "Tacton",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^6.2.2",
+    "mocha": "^11.7.5"
+  }
+}
