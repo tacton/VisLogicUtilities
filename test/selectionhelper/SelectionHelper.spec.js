@@ -18,7 +18,10 @@ describe("SelectionHelper", function () {
 				debug: (msg) => debugCalls.push(msg),
 			},
 			sketches: {
-				text: (p) => textCalls.push(p),
+				text: function (p) {
+					textCalls.push(p);
+					return {dispose: function() {}}
+				},
 				visible: false,
 			},
 		};
@@ -29,21 +32,38 @@ describe("SelectionHelper", function () {
 		delete globalThis.core;
 	});
 	it("handleSelection without options and a valid event throws no errors", function () {
-		let eventDummy = {
-			sceneObjects: {
-				dockingPoints: {
-					"a": {
-						name: "a",
-						position: [0, 0, 0]
-					},
-					"b": {
-						name: "b",
-						position: [1, 1, 1]
-					}
+		let sceneObject = {
+			asset: {name: "a"},
+			dockingPoints: {
+				"a": {
+					name: "a",
+					position: [0, 0, 0]
+				},
+				"b": {
+					name: "b",
+					position: [1, 1, 1]
 				}
-			}
+			},
+		};
+		let eventDummy = {
+			sceneObjects: [sceneObject],
+			sceneObject: sceneObject
 		}
 		expect(() => SelectionHelper.handleSelection(eventDummy)).not.to.throw(Error);
 	})
-	//TODO more tests
+	it("handleSelection calls the nameResolveFunction with the original asset name and prints its return value to console", function () {
+		let sceneObject = {
+			asset: {name: "testName123"},
+			dockingPoints: {},
+		};
+		let eventDummy = {
+			sceneObjects: [sceneObject],
+			sceneObject: sceneObject
+		};
+		let nameResolveFunction = function (assetName) {
+			return assetName + "_added";
+		}
+		SelectionHelper.handleSelection(eventDummy, {nameResolveFunction});
+		expect(debugCalls[0]).to.include("testName123_added");
+	});
 });

@@ -41,7 +41,8 @@ export class SelectionHelper {
 					posMap[posStr].push(dp)
 				}
 			}
-			consoleOutput += "\n" + sceneObject.asset.name + "\nDockingPoints:" + positionString;
+			let nameToPrint = typeof (options.nameResolveFunction) === "function" ? options.nameResolveFunction(sceneObject.asset.name) : sceneObject.asset.name;
+			consoleOutput += "\n" + nameToPrint + "\nDockingPoints:" + positionString;
 			if(i !== event.sceneObjects.length - 1){
 				consoleOutput += "\n----------------------------------";
 			}
@@ -82,7 +83,8 @@ function initOptions(options) {
 		color: [0, 0, 0, 1],
 		angle: 0,
 		highlightColor: [0.7, 0.7, 0.7, 0.4],
-		size: 12
+		size: 12,
+		nameResolveFunction: undefined,
 	};
 	if (!options)
 		options = {};
