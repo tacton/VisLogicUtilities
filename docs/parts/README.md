@@ -46,7 +46,7 @@ Parts.add(aliasName, "saddle"); //use the config value as alias name, thereby pi
 After this, you can access the specific asset which represents the saddle with the chosen part name `saddle`, regardless of which variant of saddle has actually been chosen.
 
 ```javascript
-Parts.get("saddle").docTo(Parts.get("frame"), "saddle_connector", "connector");
+Parts.get("saddle").dockTo(Parts.get("frame"), "saddle_connector", "connector");
 ```
 With hard-coded docking point names like so, all possible variants of the saddle must have a docking point called `connector`. To help ensure that all variants of a so-called family fulfill these requirements, see the module [AssetFamilies](../assetfamilies/README.md).
 
@@ -71,13 +71,13 @@ Parts.setAliasMap(myAliasMap);
 Parts.add("aliasA", "myPartA"); //explicit alias and explicit part name
 Parts.add("aliasB"); //explicit alias, no explicit part name. Part name becomes the same as the alias!
 Parts.add("myFolder/myAsset3", "myPartB"); //not a mapped alias, but a proper asset path. Still works!
-Parts.add(core.assets("myFolder/myAsset4")); //It even works when you only send in a real core.Asset. 
+Parts.add(core.assets("myFolder/myAsset4")); //It even works when you only send in a real core.Asset. In this case, the part name becomes the asset path: "myFolder/myAsset4".
 let p = Parts.add("aliasC"); //returns a real core.SceneObject
 
 //access previously added parts
 p.position = [1, 2, 3]; //access via the local variable p
 Parts.get("aliasC").visible = false; //access via implicit part name 
-Parts.get("myPartB").dockTo(Parts.get("myFolder/myAsset3"), "parent", "child"); //access via proper part name and via implicit path-partname
+Parts.get("myPartB").dockTo(Parts.get("myFolder/myAsset4"), "parent", "child"); //access via proper part name and via implicit path-partname
 ```
 
 ## Public Functions
